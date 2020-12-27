@@ -21,7 +21,8 @@ import java.util.Properties;
  * @date 22/12/2020
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.example.springboot.jpa", repositoryImplementationPostfix = "CustomImpl")
+@EnableJpaRepositories(basePackages = "com.example.springboot.jpa", repositoryImplementationPostfix = "CustomImpl",
+        repositoryBaseClass = ExtendedRepositoryImpl.class)
 @EnableTransactionManagement
 @Component
 public class DataConfiguration {
