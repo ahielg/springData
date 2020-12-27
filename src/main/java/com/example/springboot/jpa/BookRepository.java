@@ -1,6 +1,9 @@
 package com.example.springboot.jpa;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +20,7 @@ import java.util.List;
  */
 @Repository
 
-public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book>, PagingAndSortingRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book>, PagingAndSortingRepository<Book, Long>, BookRepositoryCustom {
 
     @Query("select o from Book o where o.bookId in :ids")
     List<Book> findByIds(@Param("ids") List<Long> ids);
@@ -71,5 +74,11 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     List<Book> findFirstByTitleOrderByPageCountDesc(String title);
 
     List<Book> findByPageCountGreaterThan(int pageCount, Pageable page);
+
+    Page<Book> findByPageCountLessThanEqual(int pageCount, Pageable page);
+
+    //Slice<Book> findByPageCountLessThanEqual(int pageCount, Pageable page);
+
+    List<Book> findByPageCountGreaterThan(int pageCount, Sort page);
 
 }

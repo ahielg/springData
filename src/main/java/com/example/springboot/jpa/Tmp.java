@@ -3,7 +3,9 @@ package com.example.springboot.jpa;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
@@ -25,7 +27,7 @@ public class Tmp {
 
     @PostConstruct
     void init() {
-        insertBook();
+        // insertBook();
         findAll();
         findByTitle();
         findDate();
@@ -33,11 +35,24 @@ public class Tmp {
         queryTitle();
 
         paging();
+
+        sort();
     }
 
     private void paging() {
-        System.out.println(repo.findAll(PageRequest.of(0,3)));
-        System.out.println(repo.findByPageCountGreaterThan(20,PageRequest.of(1,2)));
+        System.out.println(repo.findAll(PageRequest.of(0, 3)));
+        System.out.println(repo.findByPageCountGreaterThan(20, PageRequest.of(1, 2)));
+        Page<Book> pages = repo.findByPageCountLessThanEqual(20, PageRequest.of(1, 2));
+
+        System.out.println(pages.getTotalElements() + " ::: " + pages.getTotalPages());
+        for (Book book : pages) {
+            System.out.println(book);
+        }
+    }
+
+    private void sort() {
+        System.out.println(repo.findAll(Sort.by(Sort.Direction.ASC, "author.lastName", "pageCount")));
+        System.out.println(repo.findByPageCountGreaterThan(20, Sort.by(Sort.Direction.ASC, "author.lastName", "pageCount")));
     }
 
     private void queryTitle() {
