@@ -15,7 +15,6 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <project.namespace>lp-autoclose-app</project.namespace>
         <java.version>1.8</java.version>
         <prometheus.version>0.1.0</prometheus.version>
     </properties>
